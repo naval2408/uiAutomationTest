@@ -1,14 +1,10 @@
-package uiautomator.testing.android.example.com.uiautomatortest;
+package uiautomator.testing.android.example.com.uiautomatortest.uiTests;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
 import android.support.test.uiautomator.UiObjectNotFoundException;
-import android.support.test.uiautomator.UiSelector;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -18,6 +14,9 @@ import org.junit.runner.RunWith;
 
 import java.math.BigDecimal;
 
+import static uiautomator.testing.android.example.com.uiautomatortest.FasTipUiTestsUtils.getTipAmountValue;
+import static uiautomator.testing.android.example.com.uiautomatortest.FasTipUiTestsUtils.getTipPercentageValue;
+import static uiautomator.testing.android.example.com.uiautomatortest.FasTipUiTestsUtils.getTotalAmountValue;
 import static uiautomator.testing.android.example.com.uiautomatortest.FasTipUiTestsUtils.getUiObjectFromResourceId;
 import static uiautomator.testing.android.example.com.uiautomatortest.FasTipUiTestsUtils.startMainActivityFromHomeScreen;
 import static uiautomator.testing.android.example.com.uiautomatortest.TestConstants.BASIC_SAMPLE_PACKAGE;
@@ -42,6 +41,7 @@ public class FasTipMainScreenTest {
     private UiObject tipPercentageTextView;
     private UiObject tipAmountTextView;
     private UiObject totalAmountTextView;
+
 
     //Launching the Home Activity
     @Before
@@ -68,14 +68,14 @@ public class FasTipMainScreenTest {
     //Removing Activity from Foreground
     @After
     public void tearDown() throws Exception {
-       mDevice.pressBack();
-        }
+        mDevice.pressBack();
+    }
 
-        
+
     private void validateExpectedAndActualAmount(Double amountTyped) throws UiObjectNotFoundException {
-        Double tipPercentage = getTipPercentageValue();
-        Double tipAmount = getTipAmountValue();
-        Double totalAmount = getTotalAmountValue();
+        Double tipPercentage = getTipPercentageValue(tipPercentageTextView);
+        Double tipAmount = getTipAmountValue(tipAmountTextView);
+        Double totalAmount = getTotalAmountValue(totalAmountTextView);
         BigDecimal expectedTipAmount = BigDecimal.valueOf((amountTyped * (tipPercentage)) / 100);
         BigDecimal actualTipAmount = BigDecimal.valueOf(tipAmount);
         BigDecimal expectedTotalAmount = BigDecimal.valueOf((amountTyped * (tipPercentage)) / 100 + amountTyped);
@@ -84,23 +84,5 @@ public class FasTipMainScreenTest {
         Assert.assertEquals(expectedTotalAmount, actualTotalAmount);
     }
 
-    private Double getTipPercentageValue() throws UiObjectNotFoundException {
-        String tipPercentangeStringRepresentation = tipPercentageTextView.getText();
-        Double tipPercentage = Double.parseDouble(tipPercentangeStringRepresentation.substring(0, tipPercentangeStringRepresentation.length() - 1));
-        return tipPercentage;
-    }
-
-    private Double getTipAmountValue() throws UiObjectNotFoundException {
-        String tipAmountStringRepresentation = tipAmountTextView.getText();
-        Double tipAmount = Double.parseDouble(tipAmountStringRepresentation.substring(1));
-        return tipAmount;
-
-    }
-
-    private Double getTotalAmountValue() throws UiObjectNotFoundException {
-        String totalAmountStringRepresentation = totalAmountTextView.getText();
-        Double totalAmount = Double.parseDouble(totalAmountStringRepresentation.substring(1));
-        return totalAmount;
-    }
 
 }

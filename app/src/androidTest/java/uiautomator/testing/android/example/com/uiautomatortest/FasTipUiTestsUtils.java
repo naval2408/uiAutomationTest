@@ -6,6 +6,7 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.uiautomator.By;
 import android.support.test.uiautomator.UiDevice;
 import android.support.test.uiautomator.UiObject;
+import android.support.test.uiautomator.UiObjectNotFoundException;
 import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 
@@ -29,10 +30,37 @@ public class FasTipUiTestsUtils {
                 LAUNCH_TIMEOUT);
     }
 
+    //Method to Navigate to Settings Activity
+    public static void startSettingsActivity(UiDevice mDevice, long LAUNCH_TIMEOUT, String BASIC_SAMPLE_PACKAGE) throws UiObjectNotFoundException {
+        startMainActivityFromHomeScreen(mDevice, LAUNCH_TIMEOUT, BASIC_SAMPLE_PACKAGE);
+        getUiObjectFromResourceId(mDevice, TestConstants.SETTINGS_BUTTON_ID).clickAndWaitForNewWindow();
+    }
+
     //Method to get UI object from resource ID
-    public static UiObject getUiObjectFromResourceId(UiDevice mDevice, String resouceID)
-    {
+    public static UiObject getUiObjectFromResourceId(UiDevice mDevice, String resouceID) {
         return mDevice.findObject(new UiSelector()
                 .resourceId(resouceID));
     }
+
+
+    public static Double getTipPercentageValue(UiObject tipPercentageTextView) throws UiObjectNotFoundException {
+        String tipPercentangeStringRepresentation = tipPercentageTextView.getText();
+        Double tipPercentage = Double.parseDouble(tipPercentangeStringRepresentation.substring(0, tipPercentangeStringRepresentation.length() - 1));
+        return tipPercentage;
+    }
+
+    public static Double getTipAmountValue(UiObject tipAmountTextView) throws UiObjectNotFoundException {
+        String tipAmountStringRepresentation = tipAmountTextView.getText();
+        Double tipAmount = Double.parseDouble(tipAmountStringRepresentation.substring(1));
+        return tipAmount;
+
+    }
+
+    public static Double getTotalAmountValue(UiObject totalAmountTextView) throws UiObjectNotFoundException {
+        String totalAmountStringRepresentation = totalAmountTextView.getText();
+        Double totalAmount = Double.parseDouble(totalAmountStringRepresentation.substring(1));
+        return totalAmount;
+    }
+
+
 }
