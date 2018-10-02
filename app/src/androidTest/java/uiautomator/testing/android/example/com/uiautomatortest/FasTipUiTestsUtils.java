@@ -13,6 +13,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 public class FasTipUiTestsUtils {
+    //Method to start Main Activity from Home Screen
     public static void startMainActivityFromHomeScreen(UiDevice mDevice, long LAUNCH_TIMEOUT, String BASIC_SAMPLE_PACKAGE) {
         mDevice.pressHome();
         final String launcherPackage = mDevice.getLauncherPackageName();
@@ -28,6 +29,7 @@ public class FasTipUiTestsUtils {
                 LAUNCH_TIMEOUT);
     }
 
+    //Method to get UI object from resource ID
     public static UiObject getUiObjectFromResourceId(UiDevice mDevice, String resouceID)
     {
         return mDevice.findObject(new UiSelector()
